@@ -34,6 +34,10 @@
                     Login
                 </button>
             </form>
+            <br>
+            <a href="registration.php" class="block py-2 px-15 bg-gray-500 text-white rounded-md text-center font-semibold transition hover:bg-gray-600">
+                    Student Register First (If Not Registered)
+                </a>
             <?php
     session_start();
     if (isset($_SESSION["login"])) {
