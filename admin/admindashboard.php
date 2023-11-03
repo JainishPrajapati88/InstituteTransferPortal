@@ -4,9 +4,14 @@ if (!isset($_SESSION["prilogin"])) {
     header('location: prilogin.php');
     exit();
 }
-
+if(isset($_SESSION["college"]))
+{
+    $college=$_SESSION["college"];
+}
 include('db.php');
-
+$sql = "SELECT * FROM transfer_applications WHERE current_college='$college' AND status != 'APPROVED BY PRINCIPAL' AND status != 'REJECT BY PRINCIPAL'";
+$result = $conn->query($sql);
+$j=0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +43,11 @@ include('db.php');
                 <a href="../LogOut.php" class="btn btn-danger">LogOut</a>
             </div>
     </div>
-
-
+    <div class="container mx-auto p-4">
+        <?php
+        if($result->num_rows > 0)
+        {
+        ?>
         <table class="table-auto w-full bg-white shadow-lg rounded-lg overflow-hidden">
             <thead class="bg-gray-800 text-white">
                 <tr>
@@ -56,27 +64,20 @@ include('db.php');
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    $sql="SELECT * FROM transfer_applications WHERE status != 'APPROVED BY PRINCIPAL' AND status != 'REJECT BY PRINCIPAL'";
-                    $result = $conn->query($sql);
-                    if($result->num_rows > 0)
-                    {
-                        $j=1; 
-                            while($row = $result->fetch_assoc())
-                            {
-                                $id=$row["id"];
-                                $fullname=$row["full_name"];
-                                $currentcollege=$row["current_college"];
-                                $admissioncollege=$row["admission_college"];
-                                $sem=$row['semester'];
-                                $dep=$row['department'];
-                                $reason=$row["reason"];
-                                $pdf=$row["pdf_data"];   
-                                             
-                ?>
-                
+            <?php
+            while($row = $result->fetch_assoc()) {
+                $id = $row["id"];
+                $fullname = $row["full_name"];
+                $currentcollege = $row["current_college"];
+                $admissioncollege = $row["admission_college"];
+                $sem = $row['semester'];
+                $dep = $row['department'];
+                $reason = $row["reason"];
+                $pdf = $row["pdf_data"];
+                $user_id=$row["user_id"];
+            ?>
                 <tr>
-                    <td class="border px-4 py-2"><?php echo $j ?></td>
+                    <td class="border px-4 py-2"><?php echo $j + 1 ?></td>
                     <td class="border px-4 py-2"><?php echo $fullname ?></td>
                     <td class="border px-4 py-2"><?php echo $currentcollege ?></td>
                     <td class="border px-4 py-2"><?php echo $admissioncollege ?></td>
@@ -95,35 +96,33 @@ include('db.php');
                     </td>
                     <td class="border px-4 py-2">
                         <form action="" method="POST">
+                        <input type="hidden" name="userid" value="<?php echo $user_id?>">
                         <input type="hidden" name="id" value="<?php echo $id?>">
                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" name="reject">Reject</button>
                         </form>
                     </td>
                 </tr>
-                <?php
-                    $j = $j + 1;
-                        }
-                        }else{
-                            echo " <td colspan = '10'>
-                            No Any Application Found
-                            </td>";
-                        }
-                ?>
+            <?php
+                $j++;
+            }
+            ?>
             </tbody>
         </table>
+        <?php
+        }
+        else 
+        {
+            echo "NO DATA Found";
+        }
+        ?>
     </div>
-
-    
-   
-                       
-
 </body>
 <?php
 if(isset($_POST["approve"]))
 {
     $status="APPROVED BY PRINCIPAL";
     $id=$_POST["id"];
-    $sql="UPDATE transfer_applications SET STATUS='$status' where id='$id'";
+    $sql="UPDATE transfer_applications SET STATUS='$status' where id='$id' AND user_id='$user_id'";
     $result = $conn->query($sql);
     if($result)
     {
@@ -135,7 +134,7 @@ if(isset($_POST["reject"]))
 {
     $status="REJECT BY PRINCIPAL";
     $id=$_POST["id"];
-    $sql="UPDATE transfer_applications SET STATUS='$status' where id='$id'";
+    $sql="UPDATE transfer_applications SET STATUS='$status' where id='$id' AND user_id='$user_id'";
     $result = $conn->query($sql);
 
 
@@ -189,15 +188,11 @@ if(isset($_POST["reject"]))
           $mail->addAddress("$email");
       
           $mail->Subject = $subject;
-      
-      
+
+
           $mail->Body = $body;
-      
           // Set email format to HTML
           $mail->isHTML(true);
-
-
-          
           // Send email
           if(!$mail->send()){
             // echo "<script type='text/javascript'>alert(\"Failed to send email , but registration is completed\");</script>";
@@ -205,15 +200,8 @@ if(isset($_POST["reject"]))
           // else{
           //   echo "<script type='text/javascript'>alert(\"User ID and Password Sent successfully.\");</script>";
           // }
-
         }
-
         mailsender($emailA, $mailSubject, $mailBody);
-
-
-
-
-
         echo"<script>window.location.replace('admindashboard.php')</script>";
     }
 }

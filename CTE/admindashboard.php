@@ -8,7 +8,6 @@ $j=0;
 include('db.php');
     $sql="SELECT * FROM transfer_applications WHERE CTESTATUS = 'PENDING TO SEE' AND STATUS='APPROVED BY PRINCIPAL'";
     $result = $conn->query($sql);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +40,10 @@ include('db.php');
                 <a href="../LogOut.php" class="btn btn-danger">LogOut</a>
             </div>
     </div>
+    <div class="container mx-auto p-4">
+        <?php
+        if ($result->num_rows > 0) {
+        ?>
         <table class="table-auto w-full bg-white shadow-lg rounded-lg overflow-hidden">
             <thead class="bg-gray-800 text-white">
                 <tr>
@@ -57,23 +60,19 @@ include('db.php');
                 </tr>
             </thead>
             <tbody>
+                <?php
+                while($row = $result->fetch_assoc()) {
+                    $id = $row["id"];
+                    $fullname = $row["full_name"];
+                    $currentcollege = $row["current_college"];
+                    $admissioncollege = $row["admission_college"];
+                    $sem = $row['semester'];
+                    $dep = $row['department'];
+                    $reason = $row["reason"];
+                    $pdf = $row["pdf_data"];
+                    $user_id=$row["user_id"];
+                ?>
                 <tr>
-                    <?php
-                    if ($result->num_rows > 0)
-                    {
-                        while($row = $result->fetch_assoc())
-                        {
-                            $id=$row["id"];
-                            $fullname=$row["full_name"];
-                            $currentcollege=$row["current_college"];
-                            $admissioncollege=$row["admission_college"];
-                            $sem=$row['semester'];
-                            $dep=$row['department'];
-                            $reason=$row["reason"];
-                            $pdf=$row["pdf_data"];
-                            $status=$row["STATUS"];
-
-                    ?>
                     <td class="border px-4 py-2"><?php echo $j + 1 ?></td>
                     <td class="border px-4 py-2"><?php echo $fullname ?></td>
                     <td class="border px-4 py-2"><?php echo $currentcollege ?></td>
@@ -93,24 +92,25 @@ include('db.php');
                     </td>
                     <td class="border px-4 py-2">
                         <form action="" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $id?>">
+                            <input type="hidden" name="id" value="<?php echo $id?>">
+                            <input type="hidden" name="userid" value="<?php echo $user_id?>">
                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" name="reject">Reject</button>
                         </form>
                     </td>
                 </tr>
                 <?php
-                $j = $j + 1;
-                }}
-                else 
-                {
-                    echo "<td colspan = '10'>
-                    No Any Application Found
-                    </td>";
-                    }
+                    $j++;
+                }
                 ?>
             </tbody>
         </table>
-
+        <?php
+        }
+        else 
+        {
+            echo "NO DATA FOUND";
+        }
+        ?>
     </div>
 </body>
 <?php
@@ -118,7 +118,7 @@ if(isset($_POST["approve"]))
 {
     $status="APPROVED BY CTE";
     $id=$_POST["id"];
-    $sql="UPDATE transfer_applications SET CTESTATUS='$status' where id='$id'";
+    $sql="UPDATE transfer_applications SET CTESTATUS='$status' where id='$id' AND user_id='$user_id'";
     $result = $conn->query($sql);
     if($result)
     {
@@ -130,17 +130,12 @@ if(isset($_POST["reject"]))
 {
     $status="REJECT BY CTE";
     $id=$_POST["id"];
-    $sql="UPDATE transfer_applications SET CTESTATUS='$status' where id='$id'";
+    $sql="UPDATE transfer_applications SET CTESTATUS='$status' where id='$id' AND user_id='$user_id'";
     $result = $conn->query($sql);
-
     $GetUSR = "Select (email) from userdata where id = $id";
         $res = $conn->query($GetUSR);
-    
         $fetchMail = mysqli_fetch_array($res);
-         
         $emailA = $fetchMail['email'];
-
-
                 //mail code starts
                 $mailSubject = "Rejected for institute transfer";
                 $mailBody = "
