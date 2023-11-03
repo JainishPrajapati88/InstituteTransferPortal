@@ -35,6 +35,7 @@
                 </button>
             </form>
             <?php
+            
     session_start();
     if (isset($_SESSION["prilogin"])) {
         header('location: admindashboard.php');
@@ -49,6 +50,7 @@
         if ($row) {
             $_SESSION['prilogin'] = true;
             $_SESSION['user_id'] = $row['id'];
+            $_SESSION['college'] = $row['college_name'];
             header('location: admindashboard.php');
             exit();
         } else {
