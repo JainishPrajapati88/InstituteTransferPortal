@@ -35,6 +35,7 @@
                 </button>
             </form>
             <?php
+            
     session_start();
     if (isset($_SESSION["prilogin"])) {
         header('location: admindashboard.php');
