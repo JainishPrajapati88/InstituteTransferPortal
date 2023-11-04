@@ -49,8 +49,8 @@
         $row = mysqli_fetch_array($ret);
         if ($row) {
             $_SESSION['prilogin'] = true;
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['college'] = $row['college_name'];
+            $_SESSION['Puser_id'] = $row['id'];
+            $_SESSION['Pcollege'] = $row['college_name'];
             header('location: admindashboard.php');
             exit();
         } else {

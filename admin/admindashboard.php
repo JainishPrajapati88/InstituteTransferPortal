@@ -4,9 +4,9 @@ if (!isset($_SESSION["prilogin"])) {
     header('location: prilogin.php');
     exit();
 }
-if(isset($_SESSION["college"]))
+if(isset($_SESSION["Pcollege"]))
 {
-    $college=$_SESSION["college"];
+    $college=$_SESSION["Pcollege"];
 }
 include('db.php');
 $sql = "SELECT * FROM transfer_applications WHERE current_college='$college' AND status != 'APPROVED BY PRINCIPAL' AND status != 'REJECT BY PRINCIPAL'";

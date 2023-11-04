@@ -26,6 +26,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO transfer_applications (id,full_name, current_college, admission_college, reason, pdf_data,department,semester,STATUS,CTESTATUS) VALUES ($userid,'$fullName', '$currentCollege', '$admissionCollege', '$reason', '$pdfContent','$department','$semester','PENDING TO SEE','PENDING TO SEE')";
         if ($conn->query($sql) === TRUE) {
             echo '<script>alert("Succesfully Submited.");</script>';
+
+
+            $sql = "Select (email) from userdata where id = $userid";
+            $res = $conn->query($sql);
+
+            $fetchMail = mysqli_fetch_array($res);
+             
+            $emailA = $fetchMail['email'];
+            
+             //mail code starts
+            $mailSubject = "Application on ITP";
+            $mailBody = "
+            <hr>
+            <h1>
+            <tt><b>Welcome to Institute Transfer Portal</b></tt>
+            </h1>
+            <h2>
+                You have filled application to transfer the institute.
+            </h2>
+
+            <br>
+
+            <h3>Details you have filled for application</h3>
+
+            <h1>Name : $fullName</h1><br>
+            <h1>Current College : $currentCollege</h1><br>
+            <h1>In which college you want to go : $admissionCollege</h1><br>
+            <h1>Reason : $reason</h1><br>
+            <h1>Semester : $semester</h1><br>
+            <h1>Department : $department</h1><br>
+            
+            <hr>
+            Thanks, 
+            Institute Transfer Portal 
+            ";
+
+            function mailsender($email, $subject, $body)
+            {
+                require_once 'PHPMailer/PHPMailerAutoload.php';
+                $mail = new PHPMailer;
+            
+                // SMTP configuration
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';                      // Specify main and backup SMTP servers
+                $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                $mail->Username = 'gpainfo617@gmail.com';                    // SMTP username
+                $mail->Password = 'hwhdwqqcwnltztpa';                           // SMTP password
+                $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                $mail->Port = 587;
+            
+            
+                $mail->setFrom('gpainfo617@gmail.com', 'Institute Transfer Portal');
+                $mail->addReplyTo('gpainfo617@gmail.com');
+            
+                // Add a recipient
+                $mail->addAddress("$email");
+            
+                $mail->Subject = $subject;
+            
+            
+                $mail->Body = $body;
+            
+                // Set email format to HTML
+                $mail->isHTML(true);
+
+
+                
+                // Send email
+                if(!$mail->send()){
+                echo "<script type='text/javascript'>alert(\"The Details you have filled , also mailed on your registetred mail ID\");</script>";
+                }
+                // else{
+                //   echo "<script type='text/javascript'>alert(\"User ID and Password Sent successfully.\");</script>";
+                // }
+
+            }
+
+
+            mailsender($emailA, $mailSubject, $mailBody);
+
+              header('Location: index1.php');
         } else {
             echo '<script>alert("Errow while uploaing.");</script>';
         }
@@ -70,6 +151,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+<div class="flex justify-between mb-4">
+
+        </div>
     <div class="h-140 px w-auto flex justify-center items-center overflow-x-hidden" id="hight">
         <div class="m h-fit w-3/5 p-6 pb-4 border-2 border-solid">
             <form id="transferForm" method="POST" enctype="multipart/form-data">
