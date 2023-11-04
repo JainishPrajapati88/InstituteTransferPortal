@@ -11,21 +11,22 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-            margin: 60px;
+            margin: 0;
             padding: 0;
         }
 
         .container {
-            max-width: 400px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #;
+            background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             transition: background-color 0.8s;
         }
-        .container:hover{
-            background-color:#d3f1ee;
+
+        .container:hover {
+            background-color: #d3f1ee;
         }
 
         h2 {
@@ -33,7 +34,6 @@
         }
 
         label {
-            display: block;
             font-weight: bold;
         }
 
@@ -71,30 +71,33 @@
         button:hover {
             background-color: #42b9ad;
         }
-        .textbox{
-            margin-top:20px;
-            height:20px;
-            width: 400px;
+
+        .textbox {
+            margin-top: 20px;
         }
-        .para{
+
+        .para {
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-5">
         <h2>Contact Us</h2>
         <form action="" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
-
-            <button type="submit" name="submit">Submit</button>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" class="form-control" required></textarea>
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
@@ -111,16 +114,17 @@
             $desc = $_POST['description'];
             $in_qu = "INSERT into contact_table (name,Email,Description) VALUES ('$name','$email','$desc')";
             $result = mysqli_query($conn,$in_qu);
-        if($result)
-        {
-            echo "<div class= 'container textbox'><p class='para'>Your Query Submitted Successfully</p></div>";
-            exit;
-        }
-        else
-        {
-            echo ("Not submitted");
-            exit;
-        }
+            
+            if($result)
+            {
+                echo "<div class='container textbox'><p class='para'>Your Query Submitted Successfully</p></div>";
+                echo "<script>window.location.replace('index.html')</script>";
+            }
+            else
+            {
+                echo ("<div class='container textbox'><p class='para'>Not submitted</p></div>");
+                echo "<script>window.location.replace('index.html')</script>";
+            }
         }
     ?>
 </body>

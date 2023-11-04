@@ -123,6 +123,73 @@ if(isset($_POST["approve"]))
     if($result)
     {
         echo "<script>alert('approved')</script>";
+
+
+        $result = $conn->query($sql);
+    $GetUSR = "Select (email) from userdata where id = $id";
+        $res = $conn->query($GetUSR);
+        $fetchMail = mysqli_fetch_array($res);
+        $emailA = $fetchMail['email'];
+                //mail code starts
+                $mailSubject = "Approved for institute transfer";
+                $mailBody = "
+                <hr>
+                <h1>
+                <tt><b>Welcome to Institute Transfer Portal</b></tt>
+                </h1>
+                <h2>
+                    Congrats you are approved for your institute transfer.
+                </h2>
+                
+                <hr>
+                Thanks, 
+                Institute Transfer Portal 
+                ";
+        
+                function mailsender($email, $subject, $body)
+                {
+                  require_once '../PHPMailer/PHPMailerAutoload.php';
+        
+                  $mail = new PHPMailer;
+                  // SMTP configuration
+                  $mail->isSMTP();
+                  $mail->Host = 'smtp.gmail.com';                      // Specify main and backup SMTP servers
+                  $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                  $mail->Username = 'gpainfo617@gmail.com';                    // SMTP username
+                  $mail->Password = 'hwhdwqqcwnltztpa';                           // SMTP password
+                  $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                  $mail->Port = 587;
+              
+              
+                  $mail->setFrom('gpainfo617@gmail.com', 'Institute Transfer Portal');
+                  $mail->addReplyTo('gpainfo617@gmail.com');
+              
+                  // Add a recipient
+                  $mail->addAddress("$email");
+              
+                  $mail->Subject = $subject;
+              
+              
+                  $mail->Body = $body;
+              
+                  // Set email format to HTML
+                  $mail->isHTML(true);
+        
+        
+                  
+                  // Send email
+                  if(!$mail->send()){
+                    // echo "<script type='text/javascript'>alert(\"Failed to send email , but registration is completed\");</script>";
+                  }
+                  // else{
+                  //   echo "<script type='text/javascript'>alert(\"User ID and Password Sent successfully.\");</script>";
+                  // }
+        
+                }
+        
+                mailsender($emailA, $mailSubject, $mailBody);
+
+                echo"<script>window.location.replace('admindashboard.php')</script>";
     }
     echo"<script>window.location.replace('admindashboard.php')</script>";
 }
@@ -144,7 +211,7 @@ if(isset($_POST["reject"]))
                 <tt><b>Welcome to Institute Transfer Portal</b></tt>
                 </h1>
                 <h2>
-                    Sorry to say but you are rejected by principal for your institute transfer.
+                    Sorry to say but you are rejected for your institute transfer.
                 </h2>
                 
                 <hr>

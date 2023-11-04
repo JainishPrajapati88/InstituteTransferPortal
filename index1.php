@@ -4,18 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Student || Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Add your custom CSS styles here */
-    </style>
+
 </head>
 
 <body class="bg-gray-200">
-    <div class="container mx-auto mt-5">
+    <div class="container mx-auto mt-5 hi-80">
         <div class="w-96 bg-white p-6 rounded shadow-lg mx-auto">
             <h2 class="text-2xl font-semibold mb-4">Login</h2>
             <form action="" method="post">
@@ -35,9 +33,9 @@
                 </button>
             </form>
             <br>
-            <a href="registration.php" class="block py-2 px-15 bg-gray-500 text-white rounded-md text-center font-semibold transition hover:bg-gray-600">
-                    Student Register First (If Not Registered)
-                </a>
+            <a href="registration.php" class="block py-2 px-15 text-blue-500 text-center font-semibold">
+    Create an account (Student Registration)
+</a>
             <?php
     session_start();
     if (isset($_SESSION["login"])) {
