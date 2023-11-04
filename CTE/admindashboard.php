@@ -17,6 +17,12 @@ include('db.php');
     <title>CTE Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script>
         let pdfWindow = null;
         function togglePdf(pdfData) {
@@ -33,14 +39,37 @@ include('db.php');
 </head>
 <body class="bg-gray-100">
 
-    <div class="container mx-auto p-4">
-    <div class="flex justify-between mb-4">
-            <h1 class="text-2xl font-bold text-gray-800">Welcome CTE Member</h1>
-            <div class="space-x-2">
-                <a href="../LogOut.php" class="btn btn-danger">LogOut</a>
-            </div>
+    <div class="container-fluide mx-auto p-4">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style = "
+border-radius: 15px;">
+    <a class="navbar-brand" href="dashboard.php"><b>Welcome, CTE Member</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="pastcte.php">Past Applications</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="addprincipal.php">Add Principal</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="../Contactus.php">Contact us</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="../About.html">About us</a>
+          </li>
+      </ul>
+          <div class="mx-2">
+            <a href="../LogOut.php">
+            <button class="btn btn-danger" data-toggle="modal" data-target="#loginModal">LogOut</button></a>
+        </div>
     </div>
-    <div class="container mx-auto p-4">
+  </nav>
+    <div class="container-fluide mx-auto p-4">
         <?php
         if ($result->num_rows > 0) {
         ?>
@@ -113,6 +142,16 @@ include('db.php');
         ?>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 <?php
 if(isset($_POST["approve"]))
 {

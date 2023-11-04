@@ -111,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<script>alert("Errow while uploaing.");</script>';
         }
     }
-    $conn->close();
 }
 ?>
 <!DOCTYPE html>
@@ -171,19 +170,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="w-full flex justify-center">
                         <div class="w-11/12">
-                            <label for="currentCollege"
-                                class="block text-sm font-medium leading-6 text-gray-900">Current College</label>
+                            <label for="currentCollegeSelect" class="block text-sm font-medium leading-6 text-gray-900">Current College</label>
                             <div class="mt-2">
-                                <select id="currentCollege" name="currentCollege" autocomplete="country-name" required
+                                <select id="currentCollegeSelect" name="currentCollege" autocomplete="country-name" required
                                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="" selected disabled hidden>Select College</option>
-                                    <option value="College A">College A</option>
-                                    <option value="College B">College B</option>
-                                    <option value="College C">College C</option>
+                                    <?php
+                                            $GetPrincipalsql = "SELECT * FROM priuserdata";
+                                            $PrincipalData = $conn->query($GetPrincipalsql);
+                                            
+                                            while ($row = mysqli_fetch_array($PrincipalData)) {
+                                                echo "<option value = ".$row['college_name']." >" .$row['college_name']. "</option>";
+                                            }
+                                            
+                                        
+                                    ?>
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="w-full flex justify-center">
                         <div class="w-11/12">
                             <label for="admissionCollege"
@@ -205,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="admissionCollege"
                                 class="block text-sm font-medium leading-6 text-gray-900">Semester</label>
                             <div class="mt-2">
-                                <select id="admissionCollege" name="semester" autocomplete="country-name"
+                                <select name="semester" autocomplete="country-name"
                                     required
                                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="" selected disabled hidden>Select Semester</option>
