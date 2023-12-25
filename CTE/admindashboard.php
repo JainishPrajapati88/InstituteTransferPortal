@@ -194,14 +194,14 @@ if(isset($_POST["approve"]))
                   $mail->isSMTP();
                   $mail->Host = 'smtp.gmail.com';                      // Specify main and backup SMTP servers
                   $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                  $mail->Username = 'gpainfo617@gmail.com';                    // SMTP username
-                  $mail->Password = 'hwhdwqqcwnltztpa';                           // SMTP password
+                  $mail->Username = 'email';                    // SMTP username
+                  $mail->Password = 'pass';                           // SMTP password
                   $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
                   $mail->Port = 587;
               
               
-                  $mail->setFrom('gpainfo617@gmail.com', 'Institute Transfer Portal');
-                  $mail->addReplyTo('gpainfo617@gmail.com');
+                  $mail->setFrom('email', 'Institute Transfer Portal');
+                  $mail->addReplyTo('email');
               
                   // Add a recipient
                   $mail->addAddress("$email");
