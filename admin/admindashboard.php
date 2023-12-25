@@ -216,8 +216,8 @@ if(isset($_POST["reject"]))
           $mail->Port = 587;
       
       
-          $mail->setFrom('gpainfo617@gmail.com', 'Institute Transfer Portal');
-          $mail->addReplyTo('gpainfo617@gmail.com');
+          $mail->setFrom('email', 'Institute Transfer Portal');
+          $mail->addReplyTo('email');
       
           // Add a recipient
           $mail->addAddress("$email");
